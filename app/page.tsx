@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default function Home() {
-  redirect("/login");
+export default function HomePage() {
+  redirect("/articles");
 }

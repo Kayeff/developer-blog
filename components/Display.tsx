@@ -1,33 +1,36 @@
 import { DisplayArticles } from "@/types/types";
-import Link from "next/link";
+import DisplayHeader from "./DisplayHeader";
+import ArticleList from "./ArticleList";
+import moment from "moment";
+import { Plus } from "lucide-react";
 
-export default function Display({ data, title }: DisplayArticles) {
+export default function Display({ data }: DisplayArticles) {
   return (
-    <div className="w-full flex flex-col">
+    <section className="w-full flex flex-col gap-20">
+      <DisplayHeader
+        title={`${false ? "My" : "Kaif's"} Articles`}
+        para="Welcome to my blog — a space where I share practical insights,
+            lessons learned, and modern approaches to web development."
+      />
       <div className="w-full flex flex-col gap-5">
-        <div className="w-full flex items-center justify-center">
-          <h1 className="text-[10vw] tracking-tighter font-medium">{title}</h1>
+        <div className="w-full flex items-center justify-between">
+          <p className="tracking-tight font-semibold text-lg">
+            {moment().format("MMMM Do, YYYY")}
+          </p>
+          <button className="cursor-pointer" aria-label="Add Article">
+            <Plus />
+          </button>
         </div>
-        <ul className="w-full flex flex-col gap-2">
-          {data && data?.length > 0
-            ? data?.map((item) => (
-                <li
-                  className="w-full border border-foreground/20 p-1 rounded-lg flex items-center justify-between px-2.5 cursor-pointer hover:bg-foreground/5 duration-200 relative"
-                  key={item.id}
-                >
-                  <Link
-                    className="absolute inset-0"
-                    href={`/guest/articles/${item.id}`}
-                  />
-                  <p className="text-lg tracking-tight font-medium text-foreground">
-                    {item.title}
-                  </p>
-                  <p>{item.userId}</p>
-                </li>
-              ))
-            : ""}
+        <ul className="w-full grid grid-cols-1">
+          {data && data?.length > 0 ? (
+            data?.map((article) => (
+              <ArticleList key={article.metadata.date} article={article} />
+            ))
+          ) : (
+            <p>No Articles Found</p>
+          )}
         </ul>
       </div>
-    </div>
+    </section>
   );
 }

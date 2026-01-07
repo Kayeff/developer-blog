@@ -1,16 +1,27 @@
+import moment from "moment";
 import { BackendDataObj } from "@/types/types";
+import DisplayHeader from "./DisplayHeader";
 
 export default function Article({ article }: { article: BackendDataObj }) {
+  const date = moment(article.metadata.date);
+
   return (
-    <section className="w-full flex flex-col">
-      <div className="w-full flex items-center justify-between">
-        <h1 className="text-[5vw] tracking-tight font-medium">
-          Article {article.id}
-        </h1>
-        <p className="text-2xl">{article.userId}</p>
-      </div>
-      <p className="text-xl">{article.title}</p>
-      <p className="text-xl">{article.body}</p>
-    </section>
+    <article className="w-full flex flex-col gap-5">
+      <DisplayHeader title={article.metadata.title} para="" />
+      <p className="text-lg tracking-tight font-medium">
+        {date.format("Do MMMM YYYY")}
+      </p>
+
+      {/* <div className=" rounded-lg flex flex-col gap-4">
+        {parts.map((part) => (
+          <div key={`${part?.title}${part?.body}`}>
+            <h2 className="text-2xl tracking-tight font-semibold">
+              {part?.title}
+            </h2>
+            <p className="text-lg text-gray-500">{part?.body}</p>
+          </div>
+        ))}
+      </div> */}
+    </article>
   );
 }

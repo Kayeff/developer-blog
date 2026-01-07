@@ -1,9 +1,19 @@
-import axios from "axios";
+import { api } from "./axios";
 
 export async function getArticles() {
-  const response = await axios.get(
-    "https://jsonplaceholder.typicode.com/posts"
-  );
+  try {
+    const response = await api.get("/articles");
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error fetching articles ${error}`);
+  }
+}
 
-  return response.data;
+export async function getArticle(slug: string) {
+  try {
+    const response = await api.get(`/articles/${slug}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error fetching article ${slug}: ${error}`);
+  }
 }
